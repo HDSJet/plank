@@ -1,12 +1,13 @@
 package com.mistra.plank.service.impl;
 
+import com.mistra.plank.common.util.StockConsts;
 import com.mistra.plank.dao.RobotDao;
 import com.mistra.plank.model.entity.Robot;
 import com.mistra.plank.service.RobotService;
-import com.mistra.plank.common.util.StockConsts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+
 @Service
 public class RobotServiceImpl implements RobotService {
 

@@ -41,28 +41,23 @@ import java.util.concurrent.locks.ReentrantLock;
 @Component
 public class AutomaticTrading implements CommandLineRunner {
 
-    private final StockMapper stockMapper;
-    private final TradeApiService tradeApiService;
-
-    private final PlankConfig plankConfig;
-    private final StockProcessor stockProcessor;
-    private final HoldSharesMapper holdSharesMapper;
-
-    /**
-     * 需要监控的股票
-     */
-    private static final ConcurrentHashMap<String, Stock> map = new ConcurrentHashMap<>();
-
     /**
      * 监控中的股票
      */
     public static final ConcurrentHashMap<String, Stock> runningMap = new ConcurrentHashMap<>();
-
+    /**
+     * 需要监控的股票
+     */
+    private static final ConcurrentHashMap<String, Stock> map = new ConcurrentHashMap<>();
     /**
      * 已经成功挂单的股票
      */
     private static final HashSet<String> pendingOrderSet = new HashSet<>();
-
+    private final StockMapper stockMapper;
+    private final TradeApiService tradeApiService;
+    private final PlankConfig plankConfig;
+    private final StockProcessor stockProcessor;
+    private final HoldSharesMapper holdSharesMapper;
     private final ReentrantLock lock = new ReentrantLock();
 
     public AutomaticTrading(StockMapper stockMapper, TradeApiService tradeApiService, PlankConfig plankConfig,
@@ -72,6 +67,24 @@ public class AutomaticTrading implements CommandLineRunner {
         this.plankConfig = plankConfig;
         this.stockProcessor = stockProcessor;
         this.holdSharesMapper = holdSharesMapper;
+    }
+
+    /**
+     * 当前时间是否是交易时间
+     * <p>
+     * 只判定了时分秒，没有判定非交易日（周末及法定节假日），因为我一般只交易日才会启动项目
+     *
+     * @return boolean
+     */
+    public static boolean isTradeTime() {
+        int week = Calendar.getInstance().get(Calendar.DAY_OF_WEEK) - 1;
+        if (week == 6 || week == 0) {
+            //0代表周日，6代表周六
+            return false;
+        }
+        int hour = DateUtil.hour(new Date(), true);
+        return (hour == 9 && DateUtil.minute(new Date()) > 30) || (hour == 11 && DateUtil.minute(new Date()) <= 29)
+                || hour == 10 || hour == 13 || hour == 14;
     }
 
     /**
@@ -122,24 +135,6 @@ public class AutomaticTrading implements CommandLineRunner {
         stockMapper.update(Stock.builder().automaticTradingType(AutomaticTradingEnum.CANCEL.name()).build(), wrapper);
     }
 
-    /**
-     * 当前时间是否是交易时间
-     * <p>
-     * 只判定了时分秒，没有判定非交易日（周末及法定节假日），因为我一般只交易日才会启动项目
-     *
-     * @return boolean
-     */
-    public static boolean isTradeTime() {
-        int week = Calendar.getInstance().get(Calendar.DAY_OF_WEEK) - 1;
-        if (week == 6 || week == 0) {
-            //0代表周日，6代表周六
-            return false;
-        }
-        int hour = DateUtil.hour(new Date(), true);
-        return (hour == 9 && DateUtil.minute(new Date()) > 30) || (hour == 11 && DateUtil.minute(new Date()) <= 29)
-                || hour == 10 || hour == 13 || hour == 14;
-    }
-
     @Override
     public void run(String... args) throws Exception {
         // 自动买入
@@ -152,6 +147,62 @@ public class AutomaticTrading implements CommandLineRunner {
             for (HoldShares holdShare : holdShares) {
                 Barbarossa.executorService.submit(new SaleTask(holdShare));
             }
+        }
+    }
+
+    private void automaticTrading(Stock stock, AtomicBoolean buy) {
+        double price = stockProcessor.getStockRealTimePriceByCode(stock.getCode()).getTodayRealTimePrice();
+        if (price != 0d) {
+            if (stock.getAutomaticTradingType().equals(AutomaticTradingEnum.PLANK.name()) && price >= stock.getTriggerPrice().doubleValue()) {
+                // 触发打板下单条件，挂单
+                buy(stock, buy, price);
+            } else if (stock.getAutomaticTradingType().equals(AutomaticTradingEnum.SUCK.name()) && price <= stock.getTriggerPrice().doubleValue()) {
+                // 触发低吸下单条件，挂单
+                buy(stock, buy, price);
+            }
+        }
+    }
+
+    /**
+     * 下单
+     *
+     * @param stock Stock
+     * @param buy   AtomicBoolean
+     */
+    private void buy(Stock stock, AtomicBoolean buy, double currentPrice) {
+        SubmitRequest request = new SubmitRequest(1);
+        request.setAmount(stock.getBuyAmount());
+        request.setPrice(stock.getBuyPrice().doubleValue());
+        request.setStockCode(stock.getCode().substring(2, 8));
+        request.setZqmc(stock.getName());
+        request.setTradeType(SubmitRequest.B);
+        request.setMarket(StockUtil.getStockMarket(request.getStockCode()));
+        TradeResultVo<SubmitResponse> response = tradeApiService.submit(request);
+        if (response.success()) {
+            runningMap.remove(stock.getCode());
+            map.remove(stock.getCode());
+            pendingOrderSet.add(stock.getCode());
+            buy.set(true);
+            // 已经挂单，就修改为不监控该股票了
+            stock.setAutomaticTradingType(AutomaticTradingEnum.CANCEL.name());
+            stock.setBuyTime(new Date());
+            stockMapper.updateById(stock);
+            HoldShares holdShare = HoldShares.builder().buyTime(new Date())
+                    .code(stock.getCode()).name(stock.getName()).cost(BigDecimal.valueOf(currentPrice)).availableVolume(0)
+                    .fifteenProfit(false).number(stock.getBuyAmount()).profit(new BigDecimal(0)).buyTime(new Date())
+                    // 设置触发止损价
+                    .stopLossPrice(BigDecimal.valueOf(currentPrice * 0.95).setScale(2, RoundingMode.HALF_UP))
+                    // 设置触发止盈价
+                    .takeProfitPrice(BigDecimal.valueOf(currentPrice * 1.07).setScale(2, RoundingMode.HALF_UP))
+                    // 设置卖出价，直接跌停板核按钮
+                    .salePrice(BigDecimal.valueOf(currentPrice * 0.91).setScale(2, RoundingMode.HALF_UP))
+                    .currentPrice(BigDecimal.valueOf(currentPrice)).rate(new BigDecimal(0)).type(HoldSharesEnum.REALITY.name())
+                    .buyPrice(BigDecimal.valueOf(currentPrice)).buyNumber(stock.getBuyAmount()).build();
+            holdSharesMapper.insert(holdShare);
+            // 打板排队有可能只是排单，并没有成交
+            log.info("成功下单[{}],数量:{},价格:{}", stock.getName(), stock.getBuyAmount(), stock.getBuyPrice().doubleValue());
+        } else {
+            log.error("下单[{}]失败,message:{}", stock.getName(), response.getMessage());
         }
     }
 
@@ -227,62 +278,6 @@ public class AutomaticTrading implements CommandLineRunner {
                     e.printStackTrace();
                 }
             }
-        }
-    }
-
-    private void automaticTrading(Stock stock, AtomicBoolean buy) {
-        double price = stockProcessor.getStockRealTimePriceByCode(stock.getCode()).getTodayRealTimePrice();
-        if (price != 0d) {
-            if (stock.getAutomaticTradingType().equals(AutomaticTradingEnum.PLANK.name()) && price >= stock.getTriggerPrice().doubleValue()) {
-                // 触发打板下单条件，挂单
-                buy(stock, buy, price);
-            } else if (stock.getAutomaticTradingType().equals(AutomaticTradingEnum.SUCK.name()) && price <= stock.getTriggerPrice().doubleValue()) {
-                // 触发低吸下单条件，挂单
-                buy(stock, buy, price);
-            }
-        }
-    }
-
-    /**
-     * 下单
-     *
-     * @param stock Stock
-     * @param buy   AtomicBoolean
-     */
-    private void buy(Stock stock, AtomicBoolean buy, double currentPrice) {
-        SubmitRequest request = new SubmitRequest(1);
-        request.setAmount(stock.getBuyAmount());
-        request.setPrice(stock.getBuyPrice().doubleValue());
-        request.setStockCode(stock.getCode().substring(2, 8));
-        request.setZqmc(stock.getName());
-        request.setTradeType(SubmitRequest.B);
-        request.setMarket(StockUtil.getStockMarket(request.getStockCode()));
-        TradeResultVo<SubmitResponse> response = tradeApiService.submit(request);
-        if (response.success()) {
-            runningMap.remove(stock.getCode());
-            map.remove(stock.getCode());
-            pendingOrderSet.add(stock.getCode());
-            buy.set(true);
-            // 已经挂单，就修改为不监控该股票了
-            stock.setAutomaticTradingType(AutomaticTradingEnum.CANCEL.name());
-            stock.setBuyTime(new Date());
-            stockMapper.updateById(stock);
-            HoldShares holdShare = HoldShares.builder().buyTime(new Date())
-                    .code(stock.getCode()).name(stock.getName()).cost(BigDecimal.valueOf(currentPrice)).availableVolume(0)
-                    .fifteenProfit(false).number(stock.getBuyAmount()).profit(new BigDecimal(0)).buyTime(new Date())
-                    // 设置触发止损价
-                    .stopLossPrice(BigDecimal.valueOf(currentPrice * 0.95).setScale(2, RoundingMode.HALF_UP))
-                    // 设置触发止盈价
-                    .takeProfitPrice(BigDecimal.valueOf(currentPrice * 1.07).setScale(2, RoundingMode.HALF_UP))
-                    // 设置卖出价，直接跌停板核按钮
-                    .salePrice(BigDecimal.valueOf(currentPrice * 0.91).setScale(2, RoundingMode.HALF_UP))
-                    .currentPrice(BigDecimal.valueOf(currentPrice)).rate(new BigDecimal(0)).type(HoldSharesEnum.REALITY.name())
-                    .buyPrice(BigDecimal.valueOf(currentPrice)).buyNumber(stock.getBuyAmount()).build();
-            holdSharesMapper.insert(holdShare);
-            // 打板排队有可能只是排单，并没有成交
-            log.info("成功下单[{}],数量:{},价格:{}", stock.getName(), stock.getBuyAmount(), stock.getBuyPrice().doubleValue());
-        } else {
-            log.error("下单[{}]失败,message:{}", stock.getName(), response.getMessage());
         }
     }
 }

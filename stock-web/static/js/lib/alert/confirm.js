@@ -1,7 +1,7 @@
 function Confirm(message, action1, action2) {
 
 
-  Alert.call(this,message,action1);
+  Alert.call(this, message, action1);
 
   this.cancelAction = action2;
 }

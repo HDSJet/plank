@@ -1,9 +1,8 @@
 package com.mistra.plank.dao;
 
-import org.apache.ibatis.annotations.Mapper;
-
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.mistra.plank.model.entity.ForeignFundHoldingsTracking;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * 描述
@@ -12,4 +11,5 @@ import com.mistra.plank.model.entity.ForeignFundHoldingsTracking;
  * @date 2022/5/7
  */
 @Mapper
-public interface FundHoldingsTrackingMapper extends BaseMapper<ForeignFundHoldingsTracking> {}
+public interface FundHoldingsTrackingMapper extends BaseMapper<ForeignFundHoldingsTracking> {
+}

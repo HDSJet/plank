@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Component("crDbGridStrategyHandler")
 public class CrDbGridStrategyHandler extends CrGridStrategyHandler {
-    
+
     @Override
     protected TradeResultVo<SubmitResponse> submit(SubmitRequest request) {
         CrSubmitRequest crRequest = new CrSubmitRequest(request.getUserId());

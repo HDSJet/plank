@@ -1,11 +1,11 @@
 package com.mistra.plank.dao.impl;
 
+import com.mistra.plank.common.util.SqlCondition;
 import com.mistra.plank.dao.BaseDao;
 import com.mistra.plank.model.entity.DailyIndex;
 import com.mistra.plank.model.vo.DailyIndexVo;
 import com.mistra.plank.model.vo.PageParam;
 import com.mistra.plank.model.vo.PageVo;
-import com.mistra.plank.common.util.SqlCondition;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.StatementCreatorUtils;
 import org.springframework.stereotype.Component;
@@ -21,11 +21,6 @@ public class DailyIndexDao extends BaseDao {
 
     private static final String INSERT_SQL = "insert into daily_index(code, date, opening_price, pre_closing_price, highest_price, closing_price, lowest_price, trading_volume, trading_value, rurnover_rate) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-    public void save(List<DailyIndex> list) {
-        jdbcTemplate.batchUpdate(DailyIndexDao.INSERT_SQL, list, list.size(),
-                DailyIndexDao::setArgument);
-    }
-
     private static void setArgument(PreparedStatement ps, DailyIndex dailyIndex)
             throws SQLException {
         ps.setString(1, dailyIndex.getCode());
@@ -39,6 +34,11 @@ public class DailyIndexDao extends BaseDao {
         ps.setLong(8, dailyIndex.getTradingVolume());
         ps.setBigDecimal(9, dailyIndex.getTradingValue());
         ps.setBigDecimal(10, dailyIndex.getRurnoverRate());
+    }
+
+    public void save(List<DailyIndex> list) {
+        jdbcTemplate.batchUpdate(DailyIndexDao.INSERT_SQL, list, list.size(),
+                DailyIndexDao::setArgument);
     }
 
     public PageVo<DailyIndexVo> getDailyIndexList(PageParam pageParam) {

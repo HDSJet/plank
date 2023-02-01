@@ -1,5 +1,18 @@
 package com.mistra.plank.job;
 
+import cn.hutool.core.thread.NamedThreadFactory;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.mistra.plank.common.config.PlankConfig;
+import com.mistra.plank.common.util.HttpUtil;
+import com.mistra.plank.dao.DailyRecordMapper;
+import com.mistra.plank.model.entity.DailyRecord;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
+import org.springframework.stereotype.Component;
+
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
@@ -7,22 +20,6 @@ import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-
-import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
-import org.apache.commons.collections.CollectionUtils;
-import org.springframework.stereotype.Component;
-
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.mistra.plank.common.config.PlankConfig;
-import com.mistra.plank.dao.DailyRecordMapper;
-import com.mistra.plank.model.entity.DailyRecord;
-import com.mistra.plank.common.util.HttpUtil;
-
-import cn.hutool.core.thread.NamedThreadFactory;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author Mistra @ Version: 1.0 @ Time: 2021/11/18 22:09 @ Description: 更新股票每日成交数据 @ Copyright (c) Mistra,All Rights

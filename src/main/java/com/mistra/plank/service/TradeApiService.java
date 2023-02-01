@@ -1,52 +1,8 @@
 package com.mistra.plank.service;
 
 import com.mistra.plank.tradeapi.TradeResultVo;
-import com.mistra.plank.tradeapi.request.AuthenticationRequest;
-import com.mistra.plank.tradeapi.request.CrGetCanBuyNewStockListV3Request;
-import com.mistra.plank.tradeapi.request.CrGetConvertibleBondListV2Request;
-import com.mistra.plank.tradeapi.request.CrGetDealDataRequest;
-import com.mistra.plank.tradeapi.request.CrGetHisDealDataRequest;
-import com.mistra.plank.tradeapi.request.CrGetHisOrdersDataRequest;
-import com.mistra.plank.tradeapi.request.CrGetOrdersDataRequest;
-import com.mistra.plank.tradeapi.request.CrGetRzrqAssertsRequest;
-import com.mistra.plank.tradeapi.request.CrQueryCollateralRequest;
-import com.mistra.plank.tradeapi.request.CrRevokeRequest;
-import com.mistra.plank.tradeapi.request.CrSubmitBatTradeV2Request;
-import com.mistra.plank.tradeapi.request.CrSubmitRequest;
-import com.mistra.plank.tradeapi.request.GetAssetsRequest;
-import com.mistra.plank.tradeapi.request.GetCanBuyNewStockListV3Request;
-import com.mistra.plank.tradeapi.request.GetConvertibleBondListV2Request;
-import com.mistra.plank.tradeapi.request.GetDealDataRequest;
-import com.mistra.plank.tradeapi.request.GetHisDealDataRequest;
-import com.mistra.plank.tradeapi.request.GetHisOrdersDataRequest;
-import com.mistra.plank.tradeapi.request.GetOrdersDataRequest;
-import com.mistra.plank.tradeapi.request.GetStockListRequest;
-import com.mistra.plank.tradeapi.request.RevokeRequest;
-import com.mistra.plank.tradeapi.request.SubmitBatTradeV2Request;
-import com.mistra.plank.tradeapi.request.SubmitRequest;
-import com.mistra.plank.tradeapi.response.AuthenticationResponse;
-import com.mistra.plank.tradeapi.response.CrGetCanBuyNewStockListV3Response;
-import com.mistra.plank.tradeapi.response.CrGetConvertibleBondListV2Response;
-import com.mistra.plank.tradeapi.response.CrGetDealDataResponse;
-import com.mistra.plank.tradeapi.response.CrGetHisDealDataResponse;
-import com.mistra.plank.tradeapi.response.CrGetHisOrdersDataResponse;
-import com.mistra.plank.tradeapi.response.CrGetOrdersDataResponse;
-import com.mistra.plank.tradeapi.response.CrGetRzrqAssertsResponse;
-import com.mistra.plank.tradeapi.response.CrQueryCollateralResponse;
-import com.mistra.plank.tradeapi.response.CrRevokeResponse;
-import com.mistra.plank.tradeapi.response.CrSubmitBatTradeV2Response;
-import com.mistra.plank.tradeapi.response.CrSubmitResponse;
-import com.mistra.plank.tradeapi.response.GetAssetsResponse;
-import com.mistra.plank.tradeapi.response.GetCanBuyNewStockListV3Response;
-import com.mistra.plank.tradeapi.response.GetConvertibleBondListV2Response;
-import com.mistra.plank.tradeapi.response.GetDealDataResponse;
-import com.mistra.plank.tradeapi.response.GetHisDealDataResponse;
-import com.mistra.plank.tradeapi.response.GetHisOrdersDataResponse;
-import com.mistra.plank.tradeapi.response.GetOrdersDataResponse;
-import com.mistra.plank.tradeapi.response.GetStockListResponse;
-import com.mistra.plank.tradeapi.response.RevokeResponse;
-import com.mistra.plank.tradeapi.response.SubmitBatTradeV2Response;
-import com.mistra.plank.tradeapi.response.SubmitResponse;
+import com.mistra.plank.tradeapi.request.*;
+import com.mistra.plank.tradeapi.response.*;
 
 public interface TradeApiService {
 

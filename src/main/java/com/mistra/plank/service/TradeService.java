@@ -1,24 +1,19 @@
 package com.mistra.plank.service;
 
-import java.util.Date;
-import java.util.List;
-
-
-import com.mistra.plank.tradeapi.response.CrQueryCollateralResponse;
-import com.mistra.plank.tradeapi.response.GetDealDataResponse;
-import com.mistra.plank.tradeapi.response.GetOrdersDataResponse;
-import com.mistra.plank.tradeapi.response.GetStockListResponse;
-import com.mistra.plank.model.entity.StockSelected;
-import com.mistra.plank.model.entity.TradeDeal;
-import com.mistra.plank.model.entity.TradeMethod;
-import com.mistra.plank.model.entity.TradeOrder;
-import com.mistra.plank.model.entity.TradeUser;
+import com.mistra.plank.model.entity.*;
 import com.mistra.plank.model.vo.PageParam;
 import com.mistra.plank.model.vo.PageVo;
 import com.mistra.plank.model.vo.trade.DealVo;
 import com.mistra.plank.model.vo.trade.OrderVo;
 import com.mistra.plank.model.vo.trade.StockVo;
 import com.mistra.plank.model.vo.trade.TradeRuleVo;
+import com.mistra.plank.tradeapi.response.CrQueryCollateralResponse;
+import com.mistra.plank.tradeapi.response.GetDealDataResponse;
+import com.mistra.plank.tradeapi.response.GetOrdersDataResponse;
+import com.mistra.plank.tradeapi.response.GetStockListResponse;
+
+import java.util.Date;
+import java.util.List;
 
 
 public interface TradeService {

@@ -18,11 +18,11 @@ public enum BuyStrategyEnum {
      */
     private final String desc;
 
-    public String getDesc() {
-        return this.desc;
-    }
-
     BuyStrategyEnum(String desc) {
         this.desc = desc;
+    }
+
+    public String getDesc() {
+        return this.desc;
     }
 }

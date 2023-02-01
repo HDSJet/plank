@@ -28,6 +28,10 @@ public abstract class BaseTradeRequest {
 
     public abstract String getMethod();
 
+    public int responseVersion() {
+        return VERSION_DATA_LIST;
+    }
+
     public enum TradeRequestMethod {
         GetAsserts("get_asserts"), Submit("submit"), Revoke("revoke"), GetStockList("get_stock_list"),
         GetOrdersData("get_orders_data"), GetDealData("get_deal_data"), Authentication("authentication"),
@@ -59,10 +63,6 @@ public abstract class BaseTradeRequest {
             return value;
         }
 
-    }
-
-    public int responseVersion() {
-        return VERSION_DATA_LIST;
     }
 
 }

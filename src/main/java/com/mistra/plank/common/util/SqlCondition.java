@@ -120,7 +120,7 @@ public class SqlCondition {
      * 添加排序
      */
     public void addSort(String column, boolean isAsc, boolean first) {
-       sqlString.append(String.format(first ? " order by %s %s " : ", %s %s ", column, isAsc ? "asc" : "desc"));
+        sqlString.append(String.format(first ? " order by %s %s " : ", %s %s ", column, isAsc ? "asc" : "desc"));
     }
 
     /**

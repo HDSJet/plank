@@ -1,8 +1,8 @@
 package com.mistra.plank.common.config;
 
+import com.mistra.plank.common.util.StockConsts;
 import com.mistra.plank.model.entity.User;
 import com.mistra.plank.service.UserService;
-import com.mistra.plank.common.util.StockConsts;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,11 +20,9 @@ import java.util.Set;
 public class AuthInterceptor implements HandlerInterceptor {
 
     private final Logger logger = LoggerFactory.getLogger(AuthInterceptor.class);
-
+    private final Set<String> openUrlList = new HashSet<>();
     @Autowired
     private UserService userService;
-
-    private final Set<String> openUrlList = new HashSet<>();
 
     public AuthInterceptor() {
         openUrlList.add("/user/login");

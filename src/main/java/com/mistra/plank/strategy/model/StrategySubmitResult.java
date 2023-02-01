@@ -19,5 +19,4 @@ public class StrategySubmitResult extends SubmitRequest {
     }
 
 
-
 }

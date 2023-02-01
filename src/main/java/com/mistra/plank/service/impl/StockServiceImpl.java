@@ -2,6 +2,7 @@ package com.mistra.plank.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.mistra.plank.common.util.StockConsts;
 import com.mistra.plank.dao.StockInfoDao;
 import com.mistra.plank.dao.StockLogDao;
 import com.mistra.plank.dao.impl.DailyIndexDao;
@@ -14,7 +15,6 @@ import com.mistra.plank.model.vo.PageVo;
 import com.mistra.plank.service.DailyIndexParser;
 import com.mistra.plank.service.StockCrawlerService;
 import com.mistra.plank.service.StockInfoService;
-import com.mistra.plank.common.util.StockConsts;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,10 +39,8 @@ import java.util.stream.Collectors;
 @Service
 public class StockServiceImpl implements StockInfoService {
 
-    private final Logger logger = LoggerFactory.getLogger(StockServiceImpl.class);
-
     private static final String LIST_MESSAGE = "'list' must not be null";
-
+    private final Logger logger = LoggerFactory.getLogger(StockServiceImpl.class);
     @Autowired
     private StockInfoDao stockInfoDao;
 

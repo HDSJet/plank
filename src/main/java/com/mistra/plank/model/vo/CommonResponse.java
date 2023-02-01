@@ -10,16 +10,16 @@ public class CommonResponse {
         this.message = message;
     }
 
+    public static CommonResponse buildResponse(String message) {
+        return new CommonResponse(message);
+    }
+
     public String getMessage() {
         return message;
     }
 
     public void setMessage(String message) {
         this.message = message;
-    }
-
-    public static CommonResponse buildResponse(String message) {
-        return new CommonResponse(message);
     }
 
     @Override

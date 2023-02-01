@@ -24,6 +24,10 @@ public class CrSubmitRequest extends SubmitRequest {
         return stockName;
     }
 
+    public void setStockName(String stockName) {
+        this.stockName = stockName;
+    }
+
     public String getXyjylx() {
         return xyjylx;
     }
@@ -32,24 +36,20 @@ public class CrSubmitRequest extends SubmitRequest {
         this.xyjylx = xyjylx;
     }
 
-    public void setStockName(String stockName) {
-        this.stockName = stockName;
-    }
-
     public void setTradeInfo(String jylx) {
         switch (jylx) {
-        case xyjylx_db_b:
-        case xyjylx_rz_b:
-        case xyjylx_hq_b:
-            setTradeType(B);
-            break;
-        case xyjylx_db_s:
-        case xyjylx_rq_s:
-        case xyjylx_hk_s:
-            setTradeType(S);
-            break;
-        default:
-            break;
+            case xyjylx_db_b:
+            case xyjylx_rz_b:
+            case xyjylx_hq_b:
+                setTradeType(B);
+                break;
+            case xyjylx_db_s:
+            case xyjylx_rq_s:
+            case xyjylx_hk_s:
+                setTradeType(S);
+                break;
+            default:
+                break;
         }
         setXyjylx(jylx);
     }

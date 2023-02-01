@@ -25,6 +25,14 @@ import java.util.concurrent.TimeUnit;
 @Configuration
 public class AppConfig implements WebMvcConfigurer {
 
+    private static CorsConfiguration buildConfig() {
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.addAllowedOrigin("*");
+        corsConfiguration.addAllowedHeader("*");
+        corsConfiguration.addAllowedMethod("*");
+        return corsConfiguration;
+    }
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         AuthInterceptor authInterceptor = SpringUtil.getBean(AuthInterceptor.class);
@@ -41,14 +49,6 @@ public class AppConfig implements WebMvcConfigurer {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", AppConfig.buildConfig());
         return new CorsFilter(source);
-    }
-
-    private static CorsConfiguration buildConfig() {
-        CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.addAllowedOrigin("*");
-        corsConfiguration.addAllowedHeader("*");
-        corsConfiguration.addAllowedMethod("*");
-        return corsConfiguration;
     }
 
     @Bean

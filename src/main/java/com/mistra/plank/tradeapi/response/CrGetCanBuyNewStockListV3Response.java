@@ -32,24 +32,31 @@ public class CrGetCanBuyNewStockListV3Response extends BaseTradeResponse {
         public String getCustQuota() {
             return CustQuota;
         }
+
         public void setCustQuota(String custQuota) {
             CustQuota = custQuota;
         }
+
         public String getKcCustQuota() {
             return KcCustQuota;
         }
+
         public void setKcCustQuota(String kcCustQuota) {
             KcCustQuota = kcCustQuota;
         }
+
         public String getMarket() {
             return Market;
         }
+
         public void setMarket(String market) {
             Market = market;
         }
+
         public String getSecuid() {
             return Secuid;
         }
+
         public void setSecuid(String secuid) {
             Secuid = secuid;
         }

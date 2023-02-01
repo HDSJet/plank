@@ -10,6 +10,20 @@ public class SubmitBatTradeV2Request extends BaseTradeListRequest {
         super(userId);
     }
 
+    @Override
+    public List<SubmitData> getList() {
+        return list;
+    }
+
+    public void setList(List<SubmitData> list) {
+        this.list = list;
+    }
+
+    @Override
+    public String getMethod() {
+        return TradeRequestMethod.SubmitBatTradeV2.value();
+    }
+
     public static class SubmitData {
 
         private String StockCode;
@@ -67,20 +81,6 @@ public class SubmitBatTradeV2Request extends BaseTradeListRequest {
             Market = market;
         }
 
-    }
-
-    @Override
-    public List<SubmitData> getList() {
-        return list;
-    }
-
-    public void setList(List<SubmitData> list) {
-        this.list = list;
-    }
-
-    @Override
-    public String getMethod() {
-        return TradeRequestMethod.SubmitBatTradeV2.value();
     }
 
 }

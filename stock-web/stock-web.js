@@ -1,12 +1,14 @@
-const { proxyUrl, port } = require('./config.js');
+const {proxyUrl, port} = require('./config.js');
 
-var killTask = function(port, callback) {
+var killTask = function (port, callback) {
   var cmd = process.platform == 'win32' ? 'netstat -ano' : 'ps aux';
   var linesplitor = process.platform == 'win32' ? '\r\n' : '\n';
 
   var exec = require('child_process').exec;
-  exec(cmd, function(err, stdout, stderr) {
-    if (err) { return console.log(err); }
+  exec(cmd, function (err, stdout, stderr) {
+    if (err) {
+      return console.log(err);
+    }
 
     var arr = stdout.split(linesplitor);
 
@@ -20,19 +22,25 @@ var killTask = function(port, callback) {
     }
 
     if (pid) {
-      exec('taskkill /F /pid ' + pid, function(err) {
-        if (err) { console.log('error {}', err); }
-        if (callback) { callback(); }
+      exec('taskkill /F /pid ' + pid, function (err) {
+        if (err) {
+          console.log('error {}', err);
+        }
+        if (callback) {
+          callback();
+        }
       });
     } else {
-      if (callback) { callback(); }
+      if (callback) {
+        callback();
+      }
     }
 
   });
 
 }
 
-killTask(port, function() {
+killTask(port, function () {
   var connect = require('connect');
   var serveStatic = require('serve-static');
   var proxy = require('proxy-middleware');
@@ -41,7 +49,7 @@ killTask(port, function() {
 
   app.use('/api', proxy(proxyUrl));
   app.use(serveStatic('.'));
-  app.listen(port, function() {
+  app.listen(port, function () {
     console.log("http://127.0.0.1:%s", port);
   });
 

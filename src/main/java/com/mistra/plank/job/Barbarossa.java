@@ -52,27 +52,6 @@ import static com.mistra.plank.common.util.StringUtil.collectionToString;
 @Component
 public class Barbarossa implements CommandLineRunner {
 
-    private static final int maxPoolSize = Runtime.getRuntime().availableProcessors();
-
-    private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-    private final StockMapper stockMapper;
-    private final StockProcessor stockProcessor;
-    private final DailyRecordMapper dailyRecordMapper;
-    private final ClearanceMapper clearanceMapper;
-    private final TradeRecordMapper tradeRecordMapper;
-    private final HoldSharesMapper holdSharesMapper;
-    private final Plank plank;
-    private final PlankConfig plankConfig;
-    private final ScreeningStocks screeningStocks;
-    private final DailyRecordProcessor dailyRecordProcessor;
-    private final FundHoldingsTrackingMapper fundHoldingsTrackingMapper;
-
-    public static final ExecutorService executorService = new ThreadPoolExecutor(10, maxPoolSize, 0L, TimeUnit.MILLISECONDS,
-            new LinkedBlockingQueue<>(5000), new NamedThreadFactory("T", false));
-    /**
-     * 主力趋势流入 过滤金额 >3亿
-     */
-    private final Integer mainFundFilterAmount = 300000000;
     public static final Integer W = 10000;
     /**
      * 所有股票 key-code value-name
@@ -86,13 +65,14 @@ public class Barbarossa implements CommandLineRunner {
      * 需要监控关注的票 key-name value-Stock
      */
     public static final HashMap<String, Stock> TRACK_STOCK_MAP = new HashMap<>();
-
     public static final CopyOnWriteArrayList<StockMainFundSample> mainFundData = new CopyOnWriteArrayList<>();
     public static final CopyOnWriteArrayList<StockMainFundSample> mainFundDataAll = new CopyOnWriteArrayList<>();
     public static final ConcurrentHashMap<String, StockMainFundSample> mainFundDataMap = new ConcurrentHashMap<>(64);
     public static final ConcurrentHashMap<String, StockMainFundSample> mainFundDataAllMap =
             new ConcurrentHashMap<>(5000);
-
+    private static final int maxPoolSize = Runtime.getRuntime().availableProcessors();
+    public static final ExecutorService executorService = new ThreadPoolExecutor(10, maxPoolSize, 0L, TimeUnit.MILLISECONDS,
+            new LinkedBlockingQueue<>(5000), new NamedThreadFactory("T", false));
     /**
      * 总金额
      */
@@ -101,7 +81,22 @@ public class Barbarossa implements CommandLineRunner {
      * 可用金额
      */
     public static BigDecimal BALANCE_AVAILABLE = new BigDecimal(100 * W);
-
+    private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    private final StockMapper stockMapper;
+    private final StockProcessor stockProcessor;
+    private final DailyRecordMapper dailyRecordMapper;
+    private final ClearanceMapper clearanceMapper;
+    private final TradeRecordMapper tradeRecordMapper;
+    private final HoldSharesMapper holdSharesMapper;
+    private final Plank plank;
+    private final PlankConfig plankConfig;
+    private final ScreeningStocks screeningStocks;
+    private final DailyRecordProcessor dailyRecordProcessor;
+    private final FundHoldingsTrackingMapper fundHoldingsTrackingMapper;
+    /**
+     * 主力趋势流入 过滤金额 >3亿
+     */
+    private final Integer mainFundFilterAmount = 300000000;
     /**
      * 是否开启监控中
      */
@@ -124,6 +119,26 @@ public class Barbarossa implements CommandLineRunner {
         this.fundHoldingsTrackingMapper = fundHoldingsTrackingMapper;
     }
 
+    /**
+     * 求方差
+     *
+     * @param x 数组
+     * @return 方差
+     */
+    public static double variance(double[] x) {
+        int m = x.length;
+        double sum = 0;
+        for (double v : x) {
+            sum += v;
+        }
+        double dAve = sum / m;
+        double dVar = 0;
+        for (double v : x) {
+            dVar += (v - dAve) * (v - dAve);
+        }
+        return dVar / m;
+    }
+
     @Override
     public void run(String... args) {
         List<Stock> stocks = stockMapper.selectList(new QueryWrapper<Stock>().notLike("name", "%ST%")
@@ -143,7 +158,7 @@ public class Barbarossa implements CommandLineRunner {
     }
 
     @Scheduled(cron = "0 1 15 * * ?")
-    private void analyzeData() {
+    public void analyzeData() {
         try {
             // 15点后读取当日交易数据
             dailyRecordProcessor.run(Barbarossa.STOCK_MAP);
@@ -246,33 +261,13 @@ public class Barbarossa implements CommandLineRunner {
     }
 
     /**
-     * 求方差
-     *
-     * @param x 数组
-     * @return 方差
-     */
-    public static double variance(double[] x) {
-        int m = x.length;
-        double sum = 0;
-        for (double v : x) {
-            sum += v;
-        }
-        double dAve = sum / m;
-        double dVar = 0;
-        for (double v : x) {
-            dVar += (v - dAve) * (v - dAve);
-        }
-        return dVar / m;
-    }
-
-    /**
      * 此方法主要用来预警接近建仓价的股票
      * 实时监测数据 显示股票实时涨跌幅度，最高，最低价格，主力流入
      * 想要监测哪些股票需要手动在数据库stock表更改track字段为true
      * 我一般会选择趋势股或赛道股，所以默认把MA10作为建仓基准价格，可以手动修改stock.purchase_type字段来设置，5-则以MA5为基准价格,最多MA20
      * 股价除权之后需要重新爬取交易数据，算均价就不准了
      */
-    @Scheduled(cron = "0 */1 * * * ?")
+    //@Scheduled(cron = "0 */1 * * * ?")
     public void monitor() {
         if (AutomaticTrading.isTradeTime() && plankConfig.getEnableMonitor() && !monitoring.get()) {
             executorService.submit(this::monitorStock);

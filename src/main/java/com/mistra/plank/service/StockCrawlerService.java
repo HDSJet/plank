@@ -1,9 +1,9 @@
 package com.mistra.plank.service;
 
-import java.util.List;
-
 import com.mistra.plank.model.entity.DailyIndex;
 import com.mistra.plank.model.entity.StockInfo;
+
+import java.util.List;
 
 public interface StockCrawlerService {
 

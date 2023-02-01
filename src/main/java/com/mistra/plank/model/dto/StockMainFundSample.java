@@ -89,6 +89,6 @@ public class StockMainFundSample implements Comparable<StockMainFundSample> {
 
     @Override
     public int compareTo(StockMainFundSample o) {
-        return (int)((o.f62 / 10000) - (this.f62 / 10000));
+        return (int) ((o.f62 / 10000) - (this.f62 / 10000));
     }
 }

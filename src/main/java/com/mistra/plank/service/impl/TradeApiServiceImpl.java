@@ -2,6 +2,11 @@ package com.mistra.plank.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.mistra.plank.common.util.RSAUtil;
+import com.mistra.plank.model.entity.TradeMethod;
+import com.mistra.plank.model.entity.TradeUser;
+import com.mistra.plank.service.AbstractTradeApiService;
+import com.mistra.plank.service.TradeService;
 import com.mistra.plank.tradeapi.TradeClient;
 import com.mistra.plank.tradeapi.TradeResultVo;
 import com.mistra.plank.tradeapi.request.AuthenticationRequest;
@@ -9,11 +14,6 @@ import com.mistra.plank.tradeapi.request.BaseTradeListRequest;
 import com.mistra.plank.tradeapi.request.BaseTradeRequest;
 import com.mistra.plank.tradeapi.response.AuthenticationResponse;
 import com.mistra.plank.tradeapi.response.BaseTradeResponse;
-import com.mistra.plank.model.entity.TradeMethod;
-import com.mistra.plank.model.entity.TradeUser;
-import com.mistra.plank.service.AbstractTradeApiService;
-import com.mistra.plank.service.TradeService;
-import com.mistra.plank.common.util.RSAUtil;
 import org.apache.commons.beanutils.BeanMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,43 +27,8 @@ import java.util.stream.Collectors;
 @Service
 public class TradeApiServiceImpl extends AbstractTradeApiService {
 
-    private final Logger logger = LoggerFactory.getLogger(TradeApiServiceImpl.class);
-
-    //    @Value(value = "${emSecSecurityServerUrl}")
-    private String emSecSecurityServerUrl;
-
     private static final List<String> IgnoreList = Arrays.asList("class", "userId", "method");
-
-    public static class TradeResult<T> {
-        private String Message;
-        private int Status;
-        private T Data;
-
-        public String getMessage() {
-            return Message;
-        }
-
-        public void setMessage(String message) {
-            Message = message;
-        }
-
-        public int getStatus() {
-            return Status;
-        }
-
-        public void setStatus(int status) {
-            Status = status;
-        }
-
-        public T getData() {
-            return Data;
-        }
-
-        public void setData(T data) {
-            Data = data;
-        }
-    }
-
+    private final Logger logger = LoggerFactory.getLogger(TradeApiServiceImpl.class);
     private final ResponseParser dataObjReponseParser = new ResponseParser() {
         @Override
         public <T> TradeResultVo<T> parse(String content, TypeReference<T> responseType) {
@@ -92,7 +57,6 @@ public class TradeApiServiceImpl extends AbstractTradeApiService {
         }
 
     };
-
     private final ResponseParser msgResponseParser = new ResponseParser() {
         @Override
         public <T> TradeResultVo<T> parse(String content, TypeReference<T> responseType) {
@@ -108,7 +72,6 @@ public class TradeApiServiceImpl extends AbstractTradeApiService {
             return BaseTradeRequest.VERSION_MSG;
         }
     };
-
     private final ResponseParser objReponseParser = new ResponseParser() {
         @Override
         public <T> TradeResultVo<T> parse(String content, TypeReference<T> responseType) {
@@ -127,7 +90,6 @@ public class TradeApiServiceImpl extends AbstractTradeApiService {
             return BaseTradeRequest.VERSION_OBJ;
         }
     };
-
     private final ResponseParser dataListReponseParser = new ResponseParser() {
         @Override
         public <T> TradeResultVo<T> parse(String content, TypeReference<T> responseType) {
@@ -155,10 +117,10 @@ public class TradeApiServiceImpl extends AbstractTradeApiService {
             return BaseTradeRequest.VERSION_DATA_LIST;
         }
     };
-
+    //    @Value(value = "${emSecSecurityServerUrl}")
+    private String emSecSecurityServerUrl;
     @Autowired
     private TradeService tradeService;
-
     @Autowired
     private TradeClient tradeClient;
 
@@ -309,6 +271,36 @@ public class TradeApiServiceImpl extends AbstractTradeApiService {
         <T> TradeResultVo<T> parse(String content, TypeReference<T> responseType);
 
         int version();
+    }
+
+    public static class TradeResult<T> {
+        private String Message;
+        private int Status;
+        private T Data;
+
+        public String getMessage() {
+            return Message;
+        }
+
+        public void setMessage(String message) {
+            Message = message;
+        }
+
+        public int getStatus() {
+            return Status;
+        }
+
+        public void setStatus(int status) {
+            Status = status;
+        }
+
+        public T getData() {
+            return Data;
+        }
+
+        public void setData(T data) {
+            Data = data;
+        }
     }
 
 }

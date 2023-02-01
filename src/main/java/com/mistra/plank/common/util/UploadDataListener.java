@@ -1,16 +1,14 @@
 package com.mistra.plank.common.util;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import org.apache.commons.collections4.MapUtils;
-
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
 import com.alibaba.excel.metadata.Cell;
-
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.MapUtils;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @Author: Mistra
@@ -24,16 +22,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UploadDataListener<T> extends AnalysisEventListener<T> {
 
-    @Getter
-    LinkedHashMap<Integer, T> map = new LinkedHashMap<>();
-
-    @Getter
-    private int totalNum = 0;
-
     /**
      * 读取excel文件的最大行数
      */
     private final int maxRow;
+    @Getter
+    LinkedHashMap<Integer, T> map = new LinkedHashMap<>();
+    @Getter
+    private int totalNum = 0;
 
     public UploadDataListener(int maxRow) {
         this.maxRow = maxRow;
@@ -49,7 +45,8 @@ public class UploadDataListener<T> extends AnalysisEventListener<T> {
     }
 
     @Override
-    public void doAfterAllAnalysed(AnalysisContext context) {}
+    public void doAfterAllAnalysed(AnalysisContext context) {
+    }
 
     /**
      * 遇空白行停止读取

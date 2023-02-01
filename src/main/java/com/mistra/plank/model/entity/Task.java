@@ -17,14 +17,6 @@ public enum Task {
         this.name = name;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
     public static Task valueOf(Integer id) {
         for (Task task : Task.values()) {
             if (task.id == id) {
@@ -32,6 +24,14 @@ public enum Task {
             }
         }
         throw new ServiceException("no such id of Task");
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
     }
 
 }

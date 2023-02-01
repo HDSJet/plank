@@ -1,9 +1,9 @@
-var DataTable = function() {
+var DataTable = function () {
   var PAGE_SIZE = 10;
 
   var _options;
 
-  var init = function(options) {
+  var init = function (options) {
     _options = options;
     frameInit();
     fnDraw();
@@ -39,12 +39,12 @@ var DataTable = function() {
       type: ajaxInParam.type || 'GET',
       data: data,
       headers: ajaxInParam.headers || {},
-      error: function(result) {
+      error: function (result) {
         if (ajaxInParam.error) {
           ajaxInParam.error(result);
         }
       },
-      success: function(result) {
+      success: function (result) {
         render(result, currentPage, PAGE_SIZE);
       }
     };
@@ -67,7 +67,7 @@ var DataTable = function() {
 
     var thead = '<thead><tr>';
     var _fnColumnOptions = [];
-    $.each(columns, function(key, column) {
+    $.each(columns, function (key, column) {
       thead += '<th>' + column.title + '</th>';
       _fnColumnOptions[key] = getObjDataFn(column.render);
     });
@@ -89,7 +89,7 @@ var DataTable = function() {
 
     var pageBar = src.next();
     pageBar.html(renderPageBar(currentPage, result.totalRecords, pageSize));
-    $('.data-table-page-number', pageBar).on('blur', function() {
+    $('.data-table-page-number', pageBar).on('blur', function () {
       var tCurrentPage = parseInt($(this).val(), 10);
       var totalPage = getTotalPage(result.totalRecords, pageSize);
       if (tCurrentPage > totalPage) {
@@ -104,14 +104,14 @@ var DataTable = function() {
       }
     });
 
-    $('.pre', pageBar).on('click', function() {
+    $('.pre', pageBar).on('click', function () {
       if (currentPage > 1) {
         $('.data-table-page-number', pageBar).val(parseInt(currentPage, 10) - 1);
         fnDraw();
       }
     });
 
-    $('.next', pageBar).on('click', function() {
+    $('.next', pageBar).on('click', function () {
       var totalPage = getTotalPage(result.totalRecords, pageSize);
       if (currentPage < totalPage) {
         $('.data-table-page-number', pageBar).val(parseInt(currentPage, 10) + 1);
@@ -130,7 +130,7 @@ var DataTable = function() {
   }
 
   function getObjDataFn(fn) {
-    return function(extra) {
+    return function (extra) {
       return fn(extra);
     };
   }
@@ -146,7 +146,7 @@ var DataTable = function() {
   function renderPageBar(currentPage, iTotalRecords, pageSize) {
     var totalPage = getTotalPage(iTotalRecords, pageSize);
     return '<span class="pre">上一页</span><input class="data-table-page-number" type="number" min="1" step="1" value="' +
-      currentPage + '" /><span class="next">下一页</span>,共' + totalPage + '页|每页显示' + pageSize  + '条记录|共' + iTotalRecords + '条记录';
+      currentPage + '" /><span class="next">下一页</span>,共' + totalPage + '页|每页显示' + pageSize + '条记录|共' + iTotalRecords + '条记录';
   }
 
   function getTotalPage(iTotalRecords, pageSize) {
@@ -156,7 +156,7 @@ var DataTable = function() {
   return {
     init: init,
     fnDraw: fnDraw,
-    setData: function(data) {
+    setData: function (data) {
       _options.dataTable.ajax.data = data;
     }
   };

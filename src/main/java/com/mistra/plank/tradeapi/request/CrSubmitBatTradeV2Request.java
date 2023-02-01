@@ -6,6 +6,11 @@ public class CrSubmitBatTradeV2Request extends SubmitBatTradeV2Request {
         super(userId);
     }
 
+    @Override
+    public String getMethod() {
+        return TradeRequestMethod.CrSubmitBatTradeV2.value();
+    }
+
     public static class CrSubmitData extends SubmitData {
 
         private String Xyjylx = "6";
@@ -18,11 +23,6 @@ public class CrSubmitBatTradeV2Request extends SubmitBatTradeV2Request {
             Xyjylx = xyjylx;
         }
 
-    }
-
-    @Override
-    public String getMethod() {
-        return TradeRequestMethod.CrSubmitBatTradeV2.value();
     }
 
 }

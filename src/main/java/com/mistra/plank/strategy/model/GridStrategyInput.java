@@ -1,20 +1,19 @@
 package com.mistra.plank.strategy.model;
 
-import com.mistra.plank.tradeapi.response.GetDealDataResponse;
 import com.mistra.plank.model.entity.TradeOrder;
 import com.mistra.plank.model.vo.trade.TradeRuleVo;
+import com.mistra.plank.tradeapi.response.GetDealDataResponse;
 
 import java.util.List;
 
 public class GridStrategyInput extends BaseStrategyInput {
 
+    private List<GetDealDataResponse> dealDataList;
+    private List<TradeOrder> tradeOrderList;
+
     public GridStrategyInput(TradeRuleVo tradeRuleVo) {
         super(tradeRuleVo);
     }
-
-    private List<GetDealDataResponse> dealDataList;
-
-    private List<TradeOrder> tradeOrderList;
 
     public List<GetDealDataResponse> getDealDataList() {
         return dealDataList;

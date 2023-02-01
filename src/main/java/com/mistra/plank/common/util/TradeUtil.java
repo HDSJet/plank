@@ -1,12 +1,12 @@
 package com.mistra.plank.common.util;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import com.mistra.plank.tradeapi.response.CrGetDealDataResponse;
 import com.mistra.plank.tradeapi.response.GetDealDataResponse;
 import org.springframework.beans.BeanUtils;
+
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class TradeUtil {
 

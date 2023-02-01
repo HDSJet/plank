@@ -1,5 +1,12 @@
 package com.mistra.plank.common.util;
 
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang3.ArrayUtils;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;
@@ -7,13 +14,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.lang3.ArrayUtils;
 
 public class RSAUtil {
 
@@ -36,7 +36,7 @@ public class RSAUtil {
             }
             return encodeBytes;
         } catch (RuntimeException | InvalidKeySpecException | NoSuchAlgorithmException | IllegalBlockSizeException
-                | BadPaddingException | InvalidKeyException | NoSuchPaddingException e) {
+                 | BadPaddingException | InvalidKeyException | NoSuchPaddingException e) {
             throw new RuntimeException(e);
         }
     }

@@ -19,11 +19,11 @@ public enum AutomaticTradingEnum {
      */
     private final String desc;
 
-    public String getDesc() {
-        return this.desc;
-    }
-
     AutomaticTradingEnum(String desc) {
         this.desc = desc;
+    }
+
+    public String getDesc() {
+        return this.desc;
     }
 }

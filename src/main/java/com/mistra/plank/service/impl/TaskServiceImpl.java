@@ -1,10 +1,10 @@
 package com.mistra.plank.service.impl;
 
-import com.mistra.plank.tradeapi.TradeResultVo;
-import com.mistra.plank.tradeapi.request.*;
-import com.mistra.plank.tradeapi.response.*;
 import com.mistra.plank.common.config.SpringUtil;
-import com.mistra.plank.strategy.StrategyHandler;
+import com.mistra.plank.common.util.DecimalUtil;
+import com.mistra.plank.common.util.StockConsts;
+import com.mistra.plank.common.util.StockUtil;
+import com.mistra.plank.common.util.TradeUtil;
 import com.mistra.plank.dao.impl.ExecuteInfoDao;
 import com.mistra.plank.model.entity.*;
 import com.mistra.plank.model.vo.PageParam;
@@ -12,10 +12,10 @@ import com.mistra.plank.model.vo.PageVo;
 import com.mistra.plank.model.vo.TaskVo;
 import com.mistra.plank.model.vo.trade.TradeRuleVo;
 import com.mistra.plank.service.*;
-import com.mistra.plank.common.util.DecimalUtil;
-import com.mistra.plank.common.util.StockConsts;
-import com.mistra.plank.common.util.StockUtil;
-import com.mistra.plank.common.util.TradeUtil;
+import com.mistra.plank.strategy.StrategyHandler;
+import com.mistra.plank.tradeapi.TradeResultVo;
+import com.mistra.plank.tradeapi.request.*;
+import com.mistra.plank.tradeapi.response.*;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
@@ -31,41 +31,29 @@ import java.util.stream.Collectors;
 @Service
 public class TaskServiceImpl implements TaskService {
 
+    private static final boolean CrawIndexFromSina = false;
     private final Logger logger = LoggerFactory.getLogger(TaskServiceImpl.class);
-
     private final Map<String, BigDecimal> lastPriceMap = new HashMap<>();
-
     @Value("${ocr.service}")
     private String ocrServiceName;
-
     @Autowired
     private HolidayCalendarService holidayCalendarService;
-
     @Autowired
     private ExecuteInfoDao executeInfoDao;
-
     @Autowired
     private StockCrawlerService stockCrawlerService;
-
     @Autowired
     private StockInfoService stockService;
-
     @Autowired
     private MessageService messageServicve;
-
     @Autowired
     private StockSelectedService stockSelectedService;
-
     @Autowired
     private TradeService tradeService;
-
     @Autowired
     private TradeApiService tradeApiService;
-
     @Autowired
     private SystemConfigService systemConfigService;
-
-    private static final boolean CrawIndexFromSina = false;
 
     @Override
     public List<ExecuteInfo> getTaskListById(int... id) {

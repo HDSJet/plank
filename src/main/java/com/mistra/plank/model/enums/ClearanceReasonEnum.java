@@ -24,11 +24,11 @@ public enum ClearanceReasonEnum {
      */
     private final String desc;
 
-    public String getDesc() {
-        return this.desc;
-    }
-
     ClearanceReasonEnum(String desc) {
         this.desc = desc;
+    }
+
+    public String getDesc() {
+        return this.desc;
     }
 }

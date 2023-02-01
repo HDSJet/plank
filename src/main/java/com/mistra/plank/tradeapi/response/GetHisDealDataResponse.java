@@ -26,9 +26,9 @@ public class GetHisDealDataResponse extends GetDealDataResponse {
     public void setCjrq(String cjrq) {
         Cjrq = cjrq;
     }
-    
+
     public String getFormatDealDate() {
         return getFormatDealDate(Cjrq);
     }
-    
+
 }

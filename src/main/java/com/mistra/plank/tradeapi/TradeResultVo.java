@@ -12,6 +12,10 @@ public class TradeResultVo<T> {
     private int Errcode;
     private List<T> Data;
 
+    public static boolean success(int Status) {
+        return Status == TradeResultVo.STATUS_SUCCESS;
+    }
+
     public String getMessage() {
         return Message;
     }
@@ -54,10 +58,6 @@ public class TradeResultVo<T> {
 
     public boolean success() {
         return TradeResultVo.success(Status);
-    }
-
-    public static boolean success(int Status) {
-        return Status == TradeResultVo.STATUS_SUCCESS;
     }
 
 }

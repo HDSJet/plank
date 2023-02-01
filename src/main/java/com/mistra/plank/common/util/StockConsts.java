@@ -9,22 +9,17 @@ public class StockConsts {
     public static final String KEY_AUTH_TOKEN = "auth-token";
 
     public static final String CACHE_KEY_PREFIX = "stock:";
-
+    public static final String CACHE_KEY_TOKEN = CACHE_KEY_PREFIX + "auth:token";
+    public static final long DURATION_REDIS_DEFAULT = 3600 * 24 * 2;
     private static final String CACHE_KEY_DATA_PREFIX = CACHE_KEY_PREFIX + "data:";
     public static final String CACHE_KEY_DATA_STOCK = StockConsts.CACHE_KEY_DATA_PREFIX + "stock";
     public static final String CACHE_KEY_DATA_BUSINESS_DATE = StockConsts.CACHE_KEY_DATA_PREFIX + "businessDate";
-
     private static final String CACHE_KEY_CONFIG_PREFIX = CACHE_KEY_PREFIX + "config:";
     public static final String CACHE_KEY_CONFIG_ROBOT = StockConsts.CACHE_KEY_CONFIG_PREFIX + "robot";
-
     private static final String CACHE_KEY_TRADE_PREFIX = CACHE_KEY_PREFIX + "trade:";
     public static final String CACHE_KEY_TRADE_USER = StockConsts.CACHE_KEY_TRADE_PREFIX + "tradeUser";
     public static final String CACHE_KEY_TRADE_USER_LIST = StockConsts.CACHE_KEY_TRADE_PREFIX + "tradeUserList";
     public static final String CACHE_KEY_TRADE_METHOD = StockConsts.CACHE_KEY_TRADE_PREFIX + "tradeMethod";
-
-    public static final String CACHE_KEY_TOKEN = CACHE_KEY_PREFIX + "auth:token";
-
-    public static final long DURATION_REDIS_DEFAULT = 3600 * 24 * 2;
 
     public enum Exchange {
         SH("sh", "HA"), SZ("sz", "SA"), BJ("bj", "BA");
@@ -34,6 +29,15 @@ public class StockConsts {
         Exchange(String name, String market) {
             this.name = name;
             this.market = market;
+        }
+
+        public static Exchange valueOfName(String name) {
+            for (Exchange exchange : Exchange.values()) {
+                if (exchange.name.equals(name)) {
+                    return exchange;
+                }
+            }
+            throw new NoSuchElementException("no exchange named " + name);
         }
 
         public String getName() {
@@ -54,15 +58,6 @@ public class StockConsts {
 
         public boolean isBj() {
             return name.equals(Exchange.BJ.name);
-        }
-
-        public static Exchange valueOfName(String name) {
-            for (Exchange exchange : Exchange.values()) {
-                if (exchange.name.equals(name)) {
-                    return exchange;
-                }
-            }
-            throw new NoSuchElementException("no exchange named " + name);
         }
 
     }

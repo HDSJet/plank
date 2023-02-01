@@ -1,4 +1,4 @@
-# plank 
+# plank
 
 #### Introduction
 
@@ -8,20 +8,18 @@
 - 选股策略：找出爆量回踩的票，找出最近走上升趋势的股票等
 - 晋级胜率：找出最近的连板股梯队，分析出连板股的晋级胜率，为打板提供依据
 
-
-
 快速上手参考：src/main/resources/deployment.docx
+
 - 自动交易从 AutomaticTrading.plank() 方法入手
 - 持仓数据监控从 Barbarossa.monitor() 方法入手
 - 分析历史连板数据从 Barbarossa.analyzeData() 方法入手
 
-
 > 请求雪球的接口报错时，去雪球首页拿一个最新的cookie换一下
-> 
+>
 > 我是赛道股，趋势股，打板都玩，跟随资金，有炒大A的朋友可以加V(GODR3060W)交流
-> 
+>
 > 想实现自己的选股策略就自由发挥，调用下单接口就行了，参考AutomaticTrading.buy()方法
-> 
+>
 连板晋级率：
 
 ![avatar](./src/main/resources/img/1.png)
@@ -38,3 +36,6 @@ web页面->持仓及委托
 
 基金和外资持仓，季度增减仓数据： sql:src/main/resources/query.text
 ![avatar](./src/main/resources/img/4.png)
+
+20230201 需求 找出所有的板块的市值最大 龙头股'
+整合  git@github.com:HDSJet/eastmoney.git

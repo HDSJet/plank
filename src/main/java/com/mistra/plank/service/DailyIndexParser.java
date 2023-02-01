@@ -1,7 +1,7 @@
 package com.mistra.plank.service;
 
-import com.mistra.plank.model.entity.DailyIndex;
 import com.mistra.plank.common.util.DecimalUtil;
+import com.mistra.plank.model.entity.DailyIndex;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +13,51 @@ import java.util.regex.Pattern;
 
 @Component
 public class DailyIndexParser {
+
+    private static DailyIndex parseHistoryDailyIndex(String content) {
+        // 日期   开盘  最高  最低  收盘  成交量 成交金额
+        // <tr><td><a name="06/06/2018">06/06/2018</a></td><td>23.10</td><td>25.45</td><td>22.72</td><td>24.28</td>
+        // <td>17,867,500</td><td>433,192,000</td><td>0.68</td><td><span class='changeup'>2.88 %</span></td><td></td>
+        // <td><span class='changeup'>12.02 %</span></td><td>10365.125</td><td><span class='changedn'>-0.20 %</class></td><
+        content = content.replace(" class=altertd", "");
+        Pattern pattern = Pattern.compile("<td>([\\s\\S]{3,60}?)</td>");
+        Matcher matcher = pattern.matcher(content);
+
+        String[] values = new String[7];
+        int index = 0;
+        while (matcher.find()) {
+            values[index++] = matcher.group(1);
+            if (index == 7) {
+                break;
+            }
+        }
+
+        String dateStr = values[0].substring(9, 19);
+        Date date;
+        try {
+            date = DateUtils.parseDate(dateStr, "MM/dd/yyyy");
+        } catch (ParseException e) {
+            throw new IllegalArgumentException(e);
+        }
+        BigDecimal openingPrice = DecimalUtil.fromStr(values[1]);
+        BigDecimal highestPrice = DecimalUtil.fromStr(values[2]);
+        BigDecimal lowestPrice = DecimalUtil.fromStr(values[3]);
+        BigDecimal closingPrice = DecimalUtil.fromStr(values[4]);
+        long tradingVolume = Long.parseLong(values[5].replace(",", ""));
+        BigDecimal tradingValue = DecimalUtil.fromStr(values[6]);
+
+        DailyIndex dailyIndex = new DailyIndex();
+        dailyIndex.setOpeningPrice(openingPrice);
+        dailyIndex.setClosingPrice(closingPrice);
+        dailyIndex.setHighestPrice(highestPrice);
+        dailyIndex.setLowestPrice(lowestPrice);
+        dailyIndex.setTradingVolume(tradingVolume);
+        dailyIndex.setTradingValue(tradingValue);
+        dailyIndex.setRurnoverRate(BigDecimal.ZERO);
+        dailyIndex.setDate(date);
+
+        return dailyIndex;
+    }
 
     public List<DailyIndex> parseDailyIndexList(String content) {
         String[] str = content.split("\n");
@@ -105,51 +150,6 @@ public class DailyIndexParser {
             preClosingPrice = dailyIndex.getClosingPrice();
         }
         return list;
-    }
-
-    private static DailyIndex parseHistoryDailyIndex(String content) {
-        // 日期   开盘  最高  最低  收盘  成交量 成交金额
-        // <tr><td><a name="06/06/2018">06/06/2018</a></td><td>23.10</td><td>25.45</td><td>22.72</td><td>24.28</td>
-        // <td>17,867,500</td><td>433,192,000</td><td>0.68</td><td><span class='changeup'>2.88 %</span></td><td></td>
-        // <td><span class='changeup'>12.02 %</span></td><td>10365.125</td><td><span class='changedn'>-0.20 %</class></td><
-        content = content.replace(" class=altertd", "");
-        Pattern pattern = Pattern.compile("<td>([\\s\\S]{3,60}?)</td>");
-        Matcher matcher = pattern.matcher(content);
-
-        String[] values = new String[7];
-        int index = 0;
-        while (matcher.find()) {
-            values[index++] = matcher.group(1);
-            if (index == 7) {
-                break;
-            }
-        }
-
-        String dateStr = values[0].substring(9, 19);
-        Date date;
-        try {
-            date = DateUtils.parseDate(dateStr, "MM/dd/yyyy");
-        } catch (ParseException e) {
-            throw new IllegalArgumentException(e);
-        }
-        BigDecimal openingPrice = DecimalUtil.fromStr(values[1]);
-        BigDecimal highestPrice = DecimalUtil.fromStr(values[2]);
-        BigDecimal lowestPrice = DecimalUtil.fromStr(values[3]);
-        BigDecimal closingPrice = DecimalUtil.fromStr(values[4]);
-        long tradingVolume = Long.parseLong(values[5].replace(",", ""));
-        BigDecimal tradingValue = DecimalUtil.fromStr(values[6]);
-
-        DailyIndex dailyIndex = new DailyIndex();
-        dailyIndex.setOpeningPrice(openingPrice);
-        dailyIndex.setClosingPrice(closingPrice);
-        dailyIndex.setHighestPrice(highestPrice);
-        dailyIndex.setLowestPrice(lowestPrice);
-        dailyIndex.setTradingVolume(tradingVolume);
-        dailyIndex.setTradingValue(tradingValue);
-        dailyIndex.setRurnoverRate(BigDecimal.ZERO);
-        dailyIndex.setDate(date);
-
-        return dailyIndex;
     }
 
     public List<DailyIndex> parse163HistoryDailyIndexList(String content) {

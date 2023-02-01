@@ -1,8 +1,8 @@
 package com.mistra.plank.strategy;
 
 
-import com.mistra.plank.strategy.model.BaseStrategyInput;
 import com.mistra.plank.model.vo.trade.TradeRuleVo;
+import com.mistra.plank.strategy.model.BaseStrategyInput;
 
 public abstract class BaseStrategyHandler<I extends BaseStrategyInput, R> implements StrategyHandler {
 

@@ -1,11 +1,11 @@
 package com.mistra.plank.dao.impl;
 
+import com.mistra.plank.common.util.SqlCondition;
 import com.mistra.plank.dao.BaseDao;
 import com.mistra.plank.model.entity.ExecuteInfo;
 import com.mistra.plank.model.vo.PageParam;
 import com.mistra.plank.model.vo.PageVo;
 import com.mistra.plank.model.vo.TaskVo;
-import com.mistra.plank.common.util.SqlCondition;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Component;
 

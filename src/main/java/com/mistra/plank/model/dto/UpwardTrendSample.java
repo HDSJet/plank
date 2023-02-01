@@ -1,11 +1,11 @@
 package com.mistra.plank.model.dto;
 
-import java.math.BigDecimal;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
 
 /**
  * 描述
@@ -50,6 +50,6 @@ public class UpwardTrendSample implements Comparable<UpwardTrendSample> {
 
     @Override
     public int compareTo(UpwardTrendSample o) {
-        return (int)(o.variance * 100) - (int)(this.variance * 100);
+        return (int) (o.variance * 100) - (int) (this.variance * 100);
     }
 }

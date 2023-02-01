@@ -1,6 +1,13 @@
 server:
   port: 8088
 spring:
+  redis:
+    database: 0
+    host: 47.102.117.4
+    port: 6379
+
+  thymeleaf:
+    cache: false
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
@@ -14,7 +21,7 @@ spring:
       pool-name: HikariPool
     password: 123456
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://localhost:3306/plank?createDatabaseIfNotExist=true&autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8
+    url: jdbc:mysql://47.102.117.4:3307/plank?createDatabaseIfNotExist=true&autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8
     username: root
 
 mybatis-plus:
@@ -54,10 +61,43 @@ plank:
   profitHalfRatio: 0.08
   profitQuarterRatio: 0.1
   profitUpperRatio: 0.12
-  recentDayNumber: 1
+  recentDayNumber: 200
   stockPriceLowerLimit: 6
   stockPriceUpperLimit: 1000
   todayFundTrendUrl: http://stock.xueqiu.com/v5/stock/capital/flow.json?symbol={code}
   xueQiuAllStockUrl: http://xueqiu.com/service/screener/screen?category=CN&exchange=sh_sz&areacode=&indcode=&order_by=symbol&order=desc&page=1&size=5000&only_count=0&current=&pct=&mc=&volume=&_=1637244021109
-  xueQiuCookie: device_id=e40e3ad4aae8c6cdb009e6713d7a7989; s=bw12h1o6cr; bid=9ea105651fb1563867b3225ba28c0f26_l8o4y1es; Hm_lvt_1db88642e346389874251b5a1eded6e3=1671081233,1671416214,1671498743,1672722345; remember=1; xq_a_token=2d747d18f3f56ef751fad3db9b6ccf3aeb83b1c6; xqat=2d747d18f3f56ef751fad3db9b6ccf3aeb83b1c6; xq_id_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1aWQiOjU3MzM3MDcyNjEsImlzcyI6InVjIiwiZXhwIjoxNjc0NjE1Mzc0LCJjdG0iOjE2NzI3MjIzNTIwNzMsImNpZCI6ImQ5ZDBuNEFadXAifQ.maFUq2lsJtpVFOGimZ_zUyvQuK2Cau5N6oyshhwwOoLMdr1mgoVlj4_G00mymwWB4Ihla0AbtB8Ujc0aR4RG03KNraecrFhc_VB5DYeN7gO8izrgQSe8OQTy-NkcAPjiJlKfQChRnanAQ7FTRAMeE9IU441EojypXUkArQHBRkKAPWTTOLzcrCKxjZkpeHmzUqojYr8anOWimWf9pycttBeHO5WB7SjozmmuXog9VMKjcCbYb4TFxnLTky0DqbQ8EoF79J1_qMrdFlECc0zx1reMsZs5xNV8OEKaQiCrpdqYTAy4vzN0IJ49Yg3N20J3dMOD_9_Wx-kM1m136eZRXQ; xq_r_token=35e61ad85872759a9df3f7a645318c33aca313a4; xq_is_login=1; u=5733707261; snbim_minify=true; is_overseas=0; Hm_lpvt_1db88642e346389874251b5a1eded6e3=1672796126
+  xueQiuCookie: device_id=094d4e3a7b267f7e12d8710c69bcb7d6; xq_a_token=06c970814873215375f1cd02e4c8e64b740f6704; xqat=06c970814873215375f1cd02e4c8e64b740f6704; xq_r_token=9546eea976a2e2f78e2667bb2221518d5306c5b6; xq_id_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1aWQiOi0xLCJpc3MiOiJ1YyIsImV4cCI6MTY3NzM3MDg0NiwiY3RtIjoxNjc1MjMxNjM5MDk1LCJjaWQiOiJkOWQwbjRBWnVwIn0.mGtkZhc8_rCJ309bA97CN-ekBtjEHmj3uy9pbKIlNQl6nBWYnSpzn8bpWkmpoKdgky3gcgTF0JZx7xxc87iBGQOW28WgtjJIS5roeXplwiFAxE9Rq8X_RKTsPTSCtfG6zX25jPZ53eNds8oRG_6jqaP8tnwOTY8kilFuy-1SDU5WxDslyPEJ3lA07qkLa7a5WRIk2ywguaQJ5Fau8Qv5Z_nojKC6g8CGocmQaN5TpFmtjxkm-pH0IBXGmji13WDPl-PY9tx2Gc_LE3MH2hXhW6kL96iY5NvamMo6g0uGX7LXvc3UO3VXCsIceLPfiyB2RUkoG4LdAv_51HBRUU_s9Q; u=451675231666753; Hm_lvt_1db88642e346389874251b5a1eded6e3=1672799041,1672884321,1673311577,1675231668; Hm_lpvt_1db88642e346389874251b5a1eded6e3=1675231668
   xueQiuStockDetailUrl: http://stock.xueqiu.com/v5/stock/chart/kline.json?symbol={code}&begin={time}&period=day&type=before&count=-{recentDayNumber}&indicator=kline,pe,pb,ps,pcf,market_capital,agt,ggt,balance
+
+
+
+
+industry:
+  np: 1
+  pn: 1
+  pz: 100
+  fs: m:90+t:2
+  fields: f12,f14
+
+stock:
+  np: 1
+  pn: 1
+  pz: 500
+  fs: b
+  fields: f12,f14
+
+industryKLine:
+  fields1: f1,f3
+  fields2: f51,f59
+  klt: 103
+  fqt: 1
+  type: 90
+  end: 20500101
+
+stockKLineApi:
+  fields1: f1,f3
+  fields2: f57
+  klt: 101
+  fqt: 1
+  end: 20500101
+  lmt: 22

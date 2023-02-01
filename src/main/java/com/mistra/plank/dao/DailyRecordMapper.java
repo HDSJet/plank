@@ -1,9 +1,8 @@
 package com.mistra.plank.dao;
 
-import org.apache.ibatis.annotations.Mapper;
-
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.mistra.plank.model.entity.DailyRecord;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * 描述
@@ -12,4 +11,5 @@ import com.mistra.plank.model.entity.DailyRecord;
  * @date 2021/11/18
  */
 @Mapper
-public interface DailyRecordMapper extends BaseMapper<DailyRecord> {}
+public interface DailyRecordMapper extends BaseMapper<DailyRecord> {
+}

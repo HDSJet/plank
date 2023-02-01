@@ -1,28 +1,22 @@
 package com.mistra.plank.job;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.time.DateUtils;
-import org.springframework.stereotype.Component;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.mistra.plank.common.config.PlankConfig;
+import com.mistra.plank.common.util.HttpUtil;
 import com.mistra.plank.dao.DragonListMapper;
 import com.mistra.plank.model.entity.DragonList;
-import com.mistra.plank.common.util.HttpUtil;
-
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.time.DateUtils;
+import org.springframework.stereotype.Component;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 抓取每日龙虎榜数据，只取净买入额前20
@@ -67,7 +61,7 @@ public class DragonListProcessor {
                 JSONObject stock;
                 for (Object o : list) {
                     try {
-                        stock = (JSONObject)o;
+                        stock = (JSONObject) o;
                         DragonList dragonList = new DragonList();
                         dragonList.setDate(date);
                         String[] split = stock.getString("SECUCODE").split("\\.");
@@ -89,7 +83,7 @@ public class DragonListProcessor {
                 }
             }
             Map<String, List<DragonList>> collect =
-                dragonLists.stream().collect(Collectors.groupingBy(DragonList::getCode));
+                    dragonLists.stream().collect(Collectors.groupingBy(DragonList::getCode));
             for (Map.Entry<String, List<DragonList>> entry : collect.entrySet()) {
                 dragonListMapper.insert(entry.getValue().get(0));
             }

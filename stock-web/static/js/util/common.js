@@ -1,4 +1,4 @@
-Date.prototype.format = function(fmt) {
+Date.prototype.format = function (fmt) {
   var o = {
     "M+": this.getMonth() + 1, //月份
     "d+": this.getDate(), //日
@@ -15,27 +15,27 @@ Date.prototype.format = function(fmt) {
 };
 
 if (String.prototype.startWith !== 'function') {
-  String.prototype.startWith = function(str) {
+  String.prototype.startWith = function (str) {
     var reg = new RegExp("^" + str);
     return reg.test(this);
   }
 }
 
 if (String.prototype.endsWith !== 'function') {
-  String.prototype.endsWith = function(str) {
+  String.prototype.endsWith = function (str) {
     var reg = new RegExp(str + "$");
     return reg.test(this);
   }
 }
 
 var LocationUtil = {
-  goto: function(url) {
+  goto: function (url) {
     window.location = url;
   },
-  open: function(url) {
+  open: function (url) {
     window.open(url);
   },
-  getQueryString: function(name) {
+  getQueryString: function (name) {
     var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)');
     var r = window.location.search.substr(1).match(reg);
     if (r != null) {
@@ -46,7 +46,7 @@ var LocationUtil = {
 };
 
 var StorageUtil = {
-  get: function(key) {
+  get: function (key) {
     var data = localStorage[key];
     if (typeof data == 'string') {
       try {
@@ -57,24 +57,24 @@ var StorageUtil = {
             return obj.value;
           }
         }
-      } catch(e) {
+      } catch (e) {
       }
     }
     return '';
   },
-  set: function(key, value) {
+  set: function (key, value) {
     var date = new Date();
     date.setTime(date.getTime() + 24 * 3600 * 1000);
     var expire = date.getTime();
-    localStorage[key] = JSON.stringify({ expire, value });
+    localStorage[key] = JSON.stringify({expire, value});
   },
-  remove: function(key) {
+  remove: function (key) {
     localStorage.removeItem(key);
   }
 };
 
 var ExceptionHandler = {
-  handleCommonError: function(xhr, location) {
+  handleCommonError: function (xhr, location) {
     var message = xhr.responseJSON ? xhr.responseJSON.message : 'Internal Server Error';
     alert(message);
     if (location) {
