@@ -138,4 +138,17 @@ public class PlankConfig {
     private Boolean enableMonitor;
 
 
+    /**
+     * 东财 行业资金流向数据
+     */
+    private String hangYeZiJinLiuUrl;
+
+    /**
+     * 东财 行业内股票资金流向数据
+     */
+    private String geGuZiJinLiuUrl;
+
+    private String hangYeCodeUrl;
+
+    private String gaiLianCodeUrl;
 }

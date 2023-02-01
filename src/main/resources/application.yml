@@ -24,6 +24,19 @@ spring:
     url: jdbc:mysql://47.102.117.4:3307/plank?createDatabaseIfNotExist=true&autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8
     username: root
 
+
+
+logging:
+  level:
+    root: debug
+  logback:
+    rollingpolicy:
+      max-file-size: 100MB
+  file:
+    name: plank.log
+
+
+
 mybatis-plus:
   configuration:
     cache-enabled: true
@@ -68,6 +81,18 @@ plank:
   xueQiuAllStockUrl: http://xueqiu.com/service/screener/screen?category=CN&exchange=sh_sz&areacode=&indcode=&order_by=symbol&order=desc&page=1&size=5000&only_count=0&current=&pct=&mc=&volume=&_=1637244021109
   xueQiuCookie: device_id=094d4e3a7b267f7e12d8710c69bcb7d6; xq_a_token=06c970814873215375f1cd02e4c8e64b740f6704; xqat=06c970814873215375f1cd02e4c8e64b740f6704; xq_r_token=9546eea976a2e2f78e2667bb2221518d5306c5b6; xq_id_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1aWQiOi0xLCJpc3MiOiJ1YyIsImV4cCI6MTY3NzM3MDg0NiwiY3RtIjoxNjc1MjMxNjM5MDk1LCJjaWQiOiJkOWQwbjRBWnVwIn0.mGtkZhc8_rCJ309bA97CN-ekBtjEHmj3uy9pbKIlNQl6nBWYnSpzn8bpWkmpoKdgky3gcgTF0JZx7xxc87iBGQOW28WgtjJIS5roeXplwiFAxE9Rq8X_RKTsPTSCtfG6zX25jPZ53eNds8oRG_6jqaP8tnwOTY8kilFuy-1SDU5WxDslyPEJ3lA07qkLa7a5WRIk2ywguaQJ5Fau8Qv5Z_nojKC6g8CGocmQaN5TpFmtjxkm-pH0IBXGmji13WDPl-PY9tx2Gc_LE3MH2hXhW6kL96iY5NvamMo6g0uGX7LXvc3UO3VXCsIceLPfiyB2RUkoG4LdAv_51HBRUU_s9Q; u=451675231666753; Hm_lvt_1db88642e346389874251b5a1eded6e3=1672799041,1672884321,1673311577,1675231668; Hm_lpvt_1db88642e346389874251b5a1eded6e3=1675231668
   xueQiuStockDetailUrl: http://stock.xueqiu.com/v5/stock/chart/kline.json?symbol={code}&begin={time}&period=day&type=before&count=-{recentDayNumber}&indicator=kline,pe,pb,ps,pcf,market_capital,agt,ggt,balance
+  hangYeCodeUrl: https://push2.eastmoney.com/api/qt/clist/get?cb=jQuery112304687417704687693_1675242011928&pn=1&pz=500&po=1&np=1&fields=f12%2Cf13%2Cf14%2Cf174&fid=f174&fs=m%3A90%2Bt%3A2&ut=b2884a393a59ad64002292a3e90d46a5&_=1675242011932
+
+  gaiLianCodeUrl: https://push2.eastmoney.com/api/qt/clist/get?cb=jQuery112304687417704687693_1675242011930&pn=1&pz=500&po=1&np=1&fields=f12%2Cf13%2Cf14%2Cf174&fid=f174&fs=m%3A90%2Bt%3A3&ut=b2884a393a59ad64002292a3e90d46a5&_=1675242011933
+
+
+#  5hangYeZiJinLiuUrl: https://push2.eastmoney.com/api/qt/clist/get?cb=jQuery112303841355563199682_1675236174818&fid=f164&po=1&pz=50&pn=1&np=1&fltt=2&invt=2&ut=b2884a393a59ad64002292a3e90d46a5&fs=m%3A90+t%3A2&fields=f12%2Cf14%2Cf2%2Cf109%2Cf164%2Cf165%2Cf166%2Cf167%2Cf168%2Cf169%2Cf170%2Cf171%2Cf172%2Cf173%2Cf257%2Cf258%2Cf124%2Cf1%2Cf13 //f174 10周期       fid=f164 5周期
+  hangYeZiJinLiuUrl: https://push2.eastmoney.com/api/qt/clist/get?cb=jQuery11230940808857537514_1675240009620&fid={period}&po=1&pz=500&pn=1&np=1&fltt=2&invt=2&ut=b2884a393a59ad64002292a3e90d46a5&fs=m%3A90+t%3A2&fields=f12%2Cf14%2Cf2%2Cf160%2Cf174%2Cf175%2Cf176%2Cf177%2Cf178%2Cf179%2Cf180%2Cf181%2Cf182%2Cf183%2Cf260%2Cf261%2Cf124%2Cf1%2Cf13
+
+#  5geGuZiJinLiuUrl: https://push2.eastmoney.com/api/qt/clist/get?cb=jQuery11230940808857537514_1675240009620&fid=f174&po=1&pz=50&pn=1&np=1&fltt=2&invt=2&ut=b2884a393a59ad64002292a3e90d46a5&fs=m%3A90+t%3A2&fields=f12%2Cf14%2Cf2%2Cf160%2Cf174%2Cf175%2Cf176%2Cf177%2Cf178%2Cf179%2Cf180%2Cf181%2Cf182%2Cf183%2Cf260%2Cf261%2Cf124%2Cf1%2Cf13
+  geGuZiJinLiuUrl: https://push2.eastmoney.com/api/qt/clist/get?cb=jQuery112306454061364134305_1675238376604&fid={period}&po=1&pz=5000&pn=1&np=1&fltt=2&invt=2&ut=b2884a393a59ad64002292a3e90d46a5&fs=b:{hangYeCode}&fields=f12,f14,f2,f160,f174,f175,f176,f177,f178,f179,f180,f181,f182,f183,f260,f261,f124,f1,f13
+
+
 
 
 

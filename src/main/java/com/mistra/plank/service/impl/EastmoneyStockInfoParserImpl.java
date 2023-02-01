@@ -6,6 +6,7 @@ import com.mistra.plank.common.util.StockUtil;
 import com.mistra.plank.model.entity.DailyIndex;
 import com.mistra.plank.model.entity.StockInfo;
 import com.mistra.plank.service.StockInfoParser;
+import lombok.Data;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -96,7 +97,6 @@ public class EastmoneyStockInfoParserImpl implements StockInfoParser {
         }
 
     }
-
     public static class StockResultDiffVo {
 
         private int f1;
@@ -124,6 +124,32 @@ public class EastmoneyStockInfoParserImpl implements StockInfoParser {
         private int f24;
         private int f25;
         private double f62;
+
+
+        private double f124;
+        private double f160;
+        private Double f174;
+        private double f175;
+        private double f176;
+        private double f177;
+        private double f178;
+        private double f179;
+        private double f180;
+        private double f181;
+        private double f182;
+        private double f183;
+        private String f260;
+        private String f261;
+        private int f262;
+
+
+
+
+
+
+
+
+
 
         public int getF1() {
             return f1;
@@ -325,6 +351,125 @@ public class EastmoneyStockInfoParserImpl implements StockInfoParser {
             this.f62 = f62;
         }
 
+        public double getF124() {
+            return f124;
+        }
+
+        public void setF124(double f124) {
+            this.f124 = f124;
+        }
+
+        public double getF160() {
+            return f160;
+        }
+
+        public void setF160(double f160) {
+            this.f160 = f160;
+        }
+
+        public Double getF174() {
+            return f174;
+        }
+
+        public void setF174(Double f174) {
+            this.f174 = f174;
+        }
+
+        public double getF175() {
+            return f175;
+        }
+
+        public void setF175(double f175) {
+            this.f175 = f175;
+        }
+
+        public double getF176() {
+            return f176;
+        }
+
+        public void setF176(double f176) {
+            this.f176 = f176;
+        }
+
+        public double getF177() {
+            return f177;
+        }
+
+        public void setF177(double f177) {
+            this.f177 = f177;
+        }
+
+        public double getF178() {
+            return f178;
+        }
+
+        public void setF178(double f178) {
+            this.f178 = f178;
+        }
+
+        public double getF179() {
+            return f179;
+        }
+
+        public void setF179(double f179) {
+            this.f179 = f179;
+        }
+
+        public double getF180() {
+            return f180;
+        }
+
+        public void setF180(double f180) {
+            this.f180 = f180;
+        }
+
+        public double getF181() {
+            return f181;
+        }
+
+        public void setF181(double f181) {
+            this.f181 = f181;
+        }
+
+        public double getF182() {
+            return f182;
+        }
+
+        public void setF182(double f182) {
+            this.f182 = f182;
+        }
+
+        public double getF183() {
+            return f183;
+        }
+
+        public void setF183(double f183) {
+            this.f183 = f183;
+        }
+
+        public String getF260() {
+            return f260;
+        }
+
+        public void setF260(String f260) {
+            this.f260 = f260;
+        }
+
+        public String getF261() {
+            return f261;
+        }
+
+        public void setF261(String f261) {
+            this.f261 = f261;
+        }
+
+        public int getF262() {
+            return f262;
+        }
+
+        public void setF262(int f262) {
+            this.f262 = f262;
+        }
     }
 
 }
