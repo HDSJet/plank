@@ -16,7 +16,7 @@ public class CustomerController {
 
     @PostMapping("/ziJin")
     public void collectData() {
-        String period = "5";
+        String period = "f164";//5 //f174 10周期
 
         customerService.ziJin(period);
     }

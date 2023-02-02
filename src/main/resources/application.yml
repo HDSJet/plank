@@ -28,7 +28,7 @@ spring:
 
 logging:
   level:
-    root: debug
+    root: info
   logback:
     rollingpolicy:
       max-file-size: 100MB
@@ -79,7 +79,7 @@ plank:
   stockPriceUpperLimit: 1000
   todayFundTrendUrl: http://stock.xueqiu.com/v5/stock/capital/flow.json?symbol={code}
   xueQiuAllStockUrl: http://xueqiu.com/service/screener/screen?category=CN&exchange=sh_sz&areacode=&indcode=&order_by=symbol&order=desc&page=1&size=5000&only_count=0&current=&pct=&mc=&volume=&_=1637244021109
-  xueQiuCookie: device_id=094d4e3a7b267f7e12d8710c69bcb7d6; xq_a_token=06c970814873215375f1cd02e4c8e64b740f6704; xqat=06c970814873215375f1cd02e4c8e64b740f6704; xq_r_token=9546eea976a2e2f78e2667bb2221518d5306c5b6; xq_id_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1aWQiOi0xLCJpc3MiOiJ1YyIsImV4cCI6MTY3NzM3MDg0NiwiY3RtIjoxNjc1MjMxNjM5MDk1LCJjaWQiOiJkOWQwbjRBWnVwIn0.mGtkZhc8_rCJ309bA97CN-ekBtjEHmj3uy9pbKIlNQl6nBWYnSpzn8bpWkmpoKdgky3gcgTF0JZx7xxc87iBGQOW28WgtjJIS5roeXplwiFAxE9Rq8X_RKTsPTSCtfG6zX25jPZ53eNds8oRG_6jqaP8tnwOTY8kilFuy-1SDU5WxDslyPEJ3lA07qkLa7a5WRIk2ywguaQJ5Fau8Qv5Z_nojKC6g8CGocmQaN5TpFmtjxkm-pH0IBXGmji13WDPl-PY9tx2Gc_LE3MH2hXhW6kL96iY5NvamMo6g0uGX7LXvc3UO3VXCsIceLPfiyB2RUkoG4LdAv_51HBRUU_s9Q; u=451675231666753; Hm_lvt_1db88642e346389874251b5a1eded6e3=1672799041,1672884321,1673311577,1675231668; Hm_lpvt_1db88642e346389874251b5a1eded6e3=1675231668
+  xueQiuCookie: device_id=094d4e3a7b267f7e12d8710c69bcb7d6; xq_a_token=06c970814873215375f1cd02e4c8e64b740f6704; xqat=06c970814873215375f1cd02e4c8e64b740f6704; xq_r_token=9546eea976a2e2f78e2667bb2221518d5306c5b6; xq_id_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1aWQiOi0xLCJpc3MiOiJ1YyIsImV4cCI6MTY3NzM3MDg0NiwiY3RtIjoxNjc1MjYwODc4MjAwLCJjaWQiOiJkOWQwbjRBWnVwIn0.VwK8H-Par0KNFJraSoFBcNvtkHi0KH31gINK97DePouTaeomshRXFtbcrjvxL501ZBCOrKWa3i8it8G4EJqMLEAtdnnavim3bpc8XvnLierapE4xWQhPqTSbj560cjBiCCAatCTLhdJYz9wsMuaszvD6vDOon-L3h84CZDROfkm5J6vHsSQRYRN40VNpd1PFOXE2agVe4N7wGqeIym4vUuPJt2qypOud1b07-5suNx0DlQ5fa4iCyVJnzGgAYcsEXxKa-3Pw2r4JMxSl7sNQtPrSm8UvWzrNfISXA3q9_pIMvGeuiArvLhNv0eueuvANilizoMKxAkU_6SGjjk0QEg; u=971675260914213; Hm_lvt_1db88642e346389874251b5a1eded6e3=1672884321,1673311577,1675231668,1675260916; Hm_lpvt_1db88642e346389874251b5a1eded6e3=1675260916
   xueQiuStockDetailUrl: http://stock.xueqiu.com/v5/stock/chart/kline.json?symbol={code}&begin={time}&period=day&type=before&count=-{recentDayNumber}&indicator=kline,pe,pb,ps,pcf,market_capital,agt,ggt,balance
   hangYeCodeUrl: https://push2.eastmoney.com/api/qt/clist/get?cb=jQuery112304687417704687693_1675242011928&pn=1&pz=500&po=1&np=1&fields=f12%2Cf13%2Cf14%2Cf174&fid=f174&fs=m%3A90%2Bt%3A2&ut=b2884a393a59ad64002292a3e90d46a5&_=1675242011932
 
@@ -87,10 +87,10 @@ plank:
 
 
 #  5hangYeZiJinLiuUrl: https://push2.eastmoney.com/api/qt/clist/get?cb=jQuery112303841355563199682_1675236174818&fid=f164&po=1&pz=50&pn=1&np=1&fltt=2&invt=2&ut=b2884a393a59ad64002292a3e90d46a5&fs=m%3A90+t%3A2&fields=f12%2Cf14%2Cf2%2Cf109%2Cf164%2Cf165%2Cf166%2Cf167%2Cf168%2Cf169%2Cf170%2Cf171%2Cf172%2Cf173%2Cf257%2Cf258%2Cf124%2Cf1%2Cf13 //f174 10周期       fid=f164 5周期
-  hangYeZiJinLiuUrl: https://push2.eastmoney.com/api/qt/clist/get?cb=jQuery11230940808857537514_1675240009620&fid={period}&po=1&pz=500&pn=1&np=1&fltt=2&invt=2&ut=b2884a393a59ad64002292a3e90d46a5&fs=m%3A90+t%3A2&fields=f12%2Cf14%2Cf2%2Cf160%2Cf174%2Cf175%2Cf176%2Cf177%2Cf178%2Cf179%2Cf180%2Cf181%2Cf182%2Cf183%2Cf260%2Cf261%2Cf124%2Cf1%2Cf13
+  hangYeZiJinLiuUrl: https://push2.eastmoney.com/api/qt/clist/get?cb=jQuery1123033643023920400217_1675245484101&fid={period}&po=1&pz=5000&pn=1&np=1&fltt=2&invt=2&ut=b2884a393a59ad64002292a3e90d46a5&fs=m%3A90+t%3A2&fields=f12%2Cf14%2Cf2%2Cf109%2Cf164%2Cf165%2Cf166%2Cf167%2Cf168%2Cf169%2Cf170%2Cf171%2Cf172%2Cf173%2Cf257%2Cf258%2Cf124%2Cf1%2Cf13
 
 #  5geGuZiJinLiuUrl: https://push2.eastmoney.com/api/qt/clist/get?cb=jQuery11230940808857537514_1675240009620&fid=f174&po=1&pz=50&pn=1&np=1&fltt=2&invt=2&ut=b2884a393a59ad64002292a3e90d46a5&fs=m%3A90+t%3A2&fields=f12%2Cf14%2Cf2%2Cf160%2Cf174%2Cf175%2Cf176%2Cf177%2Cf178%2Cf179%2Cf180%2Cf181%2Cf182%2Cf183%2Cf260%2Cf261%2Cf124%2Cf1%2Cf13
-  geGuZiJinLiuUrl: https://push2.eastmoney.com/api/qt/clist/get?cb=jQuery112306454061364134305_1675238376604&fid={period}&po=1&pz=5000&pn=1&np=1&fltt=2&invt=2&ut=b2884a393a59ad64002292a3e90d46a5&fs=b:{hangYeCode}&fields=f12,f14,f2,f160,f174,f175,f176,f177,f178,f179,f180,f181,f182,f183,f260,f261,f124,f1,f13
+  geGuZiJinLiuUrl: https://push2.eastmoney.com/api/qt/clist/get?cb=jQuery112306950543532878182_1675253243859&fid={period}&po=1&pz=50&pn=1&np=1&fltt=2&invt=2&ut=b2884a393a59ad64002292a3e90d46a5&fs=b%3A{hangYeCode}&fields=f12%2Cf14%2Cf2%2Cf109%2Cf164%2Cf165%2Cf166%2Cf167%2Cf168%2Cf169%2Cf170%2Cf171%2Cf172%2Cf173%2Cf257%2Cf258%2Cf124%2Cf1%2Cf13
 
 
 
